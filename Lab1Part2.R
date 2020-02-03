@@ -1,5 +1,12 @@
 multivariate <- read.csv("C:/Users/Chandrew/Documents/RPI/Spring 2020/Data Analytics/Labs/Lab 1.2/data/multivariate.csv")
 attatch(multivariate)
+names(multivariate)
+multivariate
+
+plot(multivariate$Income, multivariate$Immigrant, main="Scatterplot")
+plot(multivariate$Immigrant, multivariate$Homeowners)
+
+help(lm)
 mm <- lm(multivariate$Homeowners~multivariate$Immigrant)
 mm
 summary(mm)$coef
@@ -8,6 +15,10 @@ plot(multivariate$Homeowners~multivariate$Immigrant)
 abline(mm)
 abline(mm,col=2,lwd=3)
 
+summary(mm)
+attributes(mm)
+mm$coefficients
+
 newImmigrantdata <- data.frame(multivariate$Homeowners=c(0,20))
 mm %>% predict(newImmigrantdata)
 
@@ -15,6 +26,13 @@ abline(mm)
 abline(mm,col=3,lwd=3)
 attributes(mm)
 mm$coefficients
+
+HP <- multivariate$Homeowners / multivariate$Population
+PD <- multivariate$Population / multivariate$area
+mm <- lm(multivariate$Immigrants ~ multivariate$Income + multivariate$Population + HP + PD)
+summary(mm)
+cm <- coef(mm)
+cm
 
 plot(mtcars$wt, mtcars$mpg)
 library(ggplot2)
@@ -61,7 +79,7 @@ summary(flights)
 
 filter(flights,month==10,day==4,carrier=='AA')
 head(filter(flights,month==10,day==4,carrier=='AA'))
-head(flights[flights$month==10 & flights$day == 4])
+head(flights[flights$month==10 && flights$day == 4])
 slice(flights,1:15)
 
 arrange(flights,year,month,day,arr_time)
